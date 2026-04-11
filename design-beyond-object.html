@@ -4,720 +4,567 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Design Beyond the Object</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --black: #0d0d0b;
-    --cream: #f2ede4;
-    --amber: #d97c2b;
-    --amber-light: #f0a84e;
-    --red: #c0392b;
-    --white: #ffffff;
-  }
+:root {
+  --paper: #F4F1EC;
+  --ink: #1A1916;
+  --ink2: #4A4742;
+  --ink3: #9A9590;
+  --rule: #D8D4CC;
+  --red: #8B2020;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'Karla', sans-serif;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--black);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+}
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 3rem;
-    mix-blend-mode: difference;
-  }
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 0.12em;
-    color: var(--white);
-  }
-  .nav-links { display: flex; gap: 2.5rem; }
-  .nav-links a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .nav-links a:hover { opacity: 1; }
+/* ── NAV ── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 28px 64px;
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+}
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
 
-  /* HERO */
-  .hero {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-  }
-  .hero-img {
-    position: absolute;
-    inset: 0;
-    background: url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1800&q=80') center/cover no-repeat;
-    filter: brightness(0.35);
-    transform: scale(1.05);
-    animation: heroZoom 12s ease-out forwards;
-  }
-  @keyframes heroZoom { to { transform: scale(1); } }
-  .hero-content {
-    position: relative;
-    padding: 0 3rem 5rem;
-    max-width: 1100px;
-  }
-  .hero-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.25rem;
-    display: block;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.3s ease forwards;
-  }
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 12vw, 11rem);
-    line-height: 0.9;
-    letter-spacing: 0.02em;
-    color: var(--white);
-    opacity: 0;
-    animation: fadeUp 0.9s 0.5s ease forwards;
-  }
-  .hero h1 em {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    color: var(--amber-light);
-  }
-  .hero-sub {
-    margin-top: 2rem;
-    max-width: 540px;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: rgba(242, 237, 228, 0.7);
-    opacity: 0;
-    animation: fadeUp 0.9s 0.7s ease forwards;
-  }
-  .hero-scroll {
-    position: absolute;
-    bottom: 2.5rem;
-    right: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0;
-    animation: fadeUp 0.9s 1.2s ease forwards;
-  }
-  .hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(242,237,228,0.4); }
-  .scroll-line {
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, var(--amber), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse { 0%,100%{ opacity:0.4; transform:scaleY(1); } 50%{ opacity:1; transform:scaleY(1.1); } }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+/* ── HERO ── */
+.hero {
+  padding: 80px 64px 64px;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+}
+.hero-left { }
+.hero-tag {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 24px;
+  display: block;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--red);
+}
+.hero-right {
+  padding-bottom: 8px;
+}
+.hero-right p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink2);
+  margin-bottom: 32px;
+}
+.hero-meta {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
 
-  /* STATEMENT BAND */
-  .statement {
-    background: var(--amber);
-    padding: 2.5rem 3rem;
-    overflow: hidden;
-  }
-  .marquee-track {
-    display: flex;
-    gap: 4rem;
-    white-space: nowrap;
-    animation: marquee 18s linear infinite;
-  }
-  .marquee-track span {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.08em;
-    color: var(--black);
-    flex-shrink: 0;
-  }
-  .marquee-track .dot { color: rgba(13,13,11,0.4); }
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* ── HERO IMAGE ── */
+.hero-image {
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%) contrast(1.05);
+}
+.image-caption {
+  padding: 10px 64px;
+  font-size: 11px;
+  color: var(--ink3);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--rule);
+}
 
-  /* SECTION BASE */
-  section { padding: 8rem 3rem; }
-  .section-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.5rem;
-  }
-  h2.section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    line-height: 0.95;
-    letter-spacing: 0.02em;
-    color: var(--white);
-  }
-  h2.section-title em {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    color: var(--cream);
-  }
+/* ── SECTION ── */
+.section {
+  padding: 80px 64px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-inner {
+  max-width: 720px;
+}
+.section-inner.wide { max-width: 100%; }
+.section-num {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-num::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--rule); }
+.section h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+  color: var(--ink);
+}
+.section h2 em { font-style: italic; font-weight: 400; }
+.section p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink2);
+  margin-bottom: 20px;
+}
+.section p:last-child { margin-bottom: 0; }
 
-  /* INTRO SPLIT */
-  .intro-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .intro-text p {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: rgba(242,237,228,0.7);
-    margin-top: 2rem;
-  }
-  .intro-text p + p { margin-top: 1rem; }
-  .intro-stat-stack { display: flex; flex-direction: column; gap: 2rem; }
-  .stat-card {
-    border-left: 3px solid var(--amber);
-    padding-left: 1.5rem;
-  }
-  .stat-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 4rem;
-    color: var(--white);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    color: rgba(242,237,228,0.5);
-    margin-top: 0.3rem;
-  }
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-top: 56px;
+}
+.stat {
+  padding: 32px 36px;
+  border-right: 1px solid var(--rule);
+}
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.stat-l {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink3);
+}
 
-  /* SCALES SECTION */
-  .scales-section { background: #131310; }
-  .scales-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
-    margin-top: 5rem;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .scale-card {
-    background: #131310;
-    padding: 3rem 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.4s;
-  }
-  .scale-card::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 2px;
-    width: 0;
-    background: var(--amber);
-    transition: width 0.4s;
-  }
-  .scale-card:hover { background: #1a1a16; }
-  .scale-card:hover::before { width: 100%; }
-  .scale-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5rem;
-    color: rgba(255,255,255,0.04);
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-  .scale-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    color: var(--white);
-    letter-spacing: 0.04em;
-    margin-bottom: 1rem;
-  }
-  .scale-desc {
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: rgba(242,237,228,0.5);
-  }
-  .scale-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    display: block;
-  }
+/* ── SCALES ── */
+.scales-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-top: 48px;
+}
+.scale-item {
+  padding: 40px 44px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.scale-item:nth-child(2n) { border-right: none; }
+.scale-item:nth-child(3), .scale-item:nth-child(4) { border-bottom: none; }
+.scale-index {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 16px;
+}
+.scale-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.scale-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink2);
+}
 
-  /* CASE STUDIES */
-  .case-studies { padding-top: 0; }
-  .case-header {
-    max-width: 1200px;
-    margin: 0 auto 5rem;
-  }
-  .case-item {
-    max-width: 1200px;
-    margin: 0 auto 2px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 480px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .case-item:nth-child(even) { direction: rtl; }
-  .case-item:nth-child(even) > * { direction: ltr; }
-  .case-img {
-    overflow: hidden;
-    position: relative;
-  }
-  .case-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: brightness(0.7) saturate(0.8);
-    transition: transform 0.6s ease, filter 0.6s;
-  }
-  .case-item:hover .case-img img { transform: scale(1.04); filter: brightness(0.85) saturate(1); }
-  .case-body {
-    background: #131310;
-    padding: 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .case-tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.5rem;
-  }
-  .case-body h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem;
-    line-height: 1;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.02em;
-  }
-  .case-body p {
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: rgba(242,237,228,0.6);
-    margin-bottom: 1rem;
-  }
-  .case-impact {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    color: var(--amber);
-    text-transform: uppercase;
-  }
+/* ── CASE STUDIES ── */
+.case {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+}
+.case:first-child { border-top: 1px solid var(--rule); margin-top: 48px; }
+.case-image {
+  height: 360px;
+  overflow: hidden;
+  border-right: 1px solid var(--rule);
+}
+.case-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(30%);
+  transition: filter 0.4s, transform 0.4s;
+}
+.case:hover .case-image img { filter: grayscale(0%); transform: scale(1.02); }
+.case-text {
+  padding: 48px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.case-tag {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 20px;
+}
+.case-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 18px;
+  color: var(--ink);
+}
+.case-body {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink2);
+  margin-bottom: 14px;
+}
+.case-scales {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--red);
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
 
-  /* BIG QUOTE */
-  .quote-section {
-    background: var(--cream);
-    padding: 10rem 3rem;
-    text-align: center;
-  }
-  .big-quote {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 4.5vw, 4rem);
-    line-height: 1.25;
-    color: var(--black);
-    max-width: 900px;
-    margin: 0 auto;
-    font-style: italic;
-  }
-  .quote-attr {
-    margin-top: 2.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(13,13,11,0.4);
-  }
+/* odd cases flip image/text */
+.case.flip .case-image {
+  order: 2;
+  border-right: none;
+  border-left: 1px solid var(--rule);
+}
+.case.flip .case-text { order: 1; }
 
-  /* IMPACT MOSAIC */
-  .mosaic {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 1px;
-    background: rgba(255,255,255,0.05);
-    max-width: 1200px;
-    margin: 5rem auto 0;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .mosaic-item {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 1;
-  }
-  .mosaic-item.wide { grid-column: span 2; aspect-ratio: auto; }
-  .mosaic-item.tall { grid-row: span 2; aspect-ratio: auto; }
-  .mosaic-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: brightness(0.5) saturate(0.6);
-    transition: filter 0.4s, transform 0.5s;
-  }
-  .mosaic-item:hover img { filter: brightness(0.7) saturate(1); transform: scale(1.03); }
-  .mosaic-caption {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 1.5rem;
-    background: linear-gradient(to top, rgba(13,13,11,0.9), transparent);
-  }
-  .mosaic-caption h4 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    color: var(--white);
-    letter-spacing: 0.04em;
-  }
-  .mosaic-caption p {
-    font-size: 0.75rem;
-    color: rgba(242,237,228,0.6);
-    margin-top: 0.25rem;
-    line-height: 1.5;
-  }
+/* ── PULLQUOTE ── */
+.pullquote {
+  padding: 80px 64px;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.pullquote-rule { width: 1px; height: 100%; background: var(--red); }
+.pullquote-content blockquote {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.5vw, 30px);
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 780px;
+}
+.pullquote-attr {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink3);
+}
 
-  /* CTA / CONCLUSION */
-  .conclusion {
-    background: var(--amber);
-    padding: 10rem 3rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .conclusion::before {
-    content: 'DESIGN';
-    position: absolute;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28vw;
-    color: rgba(13,13,11,0.07);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .conclusion h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.95;
-    color: var(--black);
-    position: relative;
-  }
-  .conclusion p {
-    max-width: 600px;
-    margin: 2.5rem auto 0;
-    font-size: 1rem;
-    line-height: 1.8;
-    color: rgba(13,13,11,0.65);
-    position: relative;
-  }
-  .cta-btn {
-    display: inline-block;
-    margin-top: 3rem;
-    padding: 1.1rem 3rem;
-    border: 2px solid var(--black);
-    color: var(--black);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    position: relative;
-    transition: background 0.3s, color 0.3s;
-  }
-  .cta-btn:hover { background: var(--black); color: var(--amber); }
+/* ── CONCLUSION ── */
+.conclusion {
+  padding: 80px 64px;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.conclusion h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.conclusion-right p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink2);
+  margin-bottom: 20px;
+}
+.conclusion-right p:last-child { margin-bottom: 0; }
 
-  /* FOOTER */
-  footer {
-    background: #080807;
-    padding: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.1em;
-    color: var(--amber);
-  }
-  .footer-note {
-    font-size: 0.75rem;
-    color: rgba(242,237,228,0.3);
-    text-align: right;
-  }
+/* ── FOOTER ── */
+footer {
+  padding: 32px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--ink);
+}
+.footer-note {
+  font-size: 12px;
+  color: var(--ink3);
+  text-align: right;
+  line-height: 1.6;
+}
 
-  /* FADE-IN ON SCROLL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
 
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    section { padding: 5rem 1.5rem; }
-    .intro-split { grid-template-columns: 1fr; gap: 3rem; }
-    .scales-grid { grid-template-columns: 1fr 1fr; }
-    .case-item { grid-template-columns: 1fr; direction: ltr !important; }
-    .case-img { height: 260px; }
-    .mosaic { grid-template-columns: 1fr 1fr; }
-    .mosaic-item.wide { grid-column: span 1; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .footer-note { text-align: center; }
-  }
+@media (max-width: 880px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 40px; }
+  .hero-image { height: 280px; }
+  .image-caption { padding: 10px 24px; }
+  .section { padding: 56px 24px; }
+  .stats-row { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+  .stat:last-child { border-bottom: none; }
+  .scales-grid { grid-template-columns: 1fr; }
+  .scale-item { border-right: none !important; }
+  .scale-item:nth-child(3), .scale-item:nth-child(4) { border-bottom: 1px solid var(--rule); }
+  .scale-item:last-child { border-bottom: none; }
+  .case, .case.flip { grid-template-columns: 1fr; }
+  .case-image { height: 240px; border-right: none !important; border-left: none !important; border-bottom: 1px solid var(--rule); }
+  .case-text { order: 2 !important; padding: 36px 24px; }
+  .case-image { order: 1 !important; }
+  .pullquote { padding: 56px 24px; grid-template-columns: 1fr; gap: 0; }
+  .pullquote-rule { display: none; }
+  .conclusion { grid-template-columns: 1fr; gap: 40px; padding: 56px 24px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 24px; }
+  .footer-note { text-align: center; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <span class="nav-logo">Design Beyond</span>
+  <span class="nav-logo">Design Beyond the Object</span>
   <div class="nav-links">
-    <a href="#intro">About</a>
+    <a href="#question">Question</a>
     <a href="#scales">Scales</a>
-    <a href="#cases">Case Studies</a>
-    <a href="#conclusion">Argument</a>
+    <a href="#cases">Cases</a>
+    <a href="#argument">Argument</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-img"></div>
-  <div class="hero-content">
+<div class="hero">
+  <div class="hero-left">
     <span class="hero-tag">Research Project — Option 2</span>
     <h1>Design<br><em>Beyond</em><br>the Object</h1>
-    <p class="hero-sub">Everyday objects — furniture, tools, the things we touch without thinking — are not merely products. They are arguments about how we should live, work, and relate to one another.</p>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="statement">
-  <div class="marquee-track">
-    <span>Labor</span><span class="dot">◆</span>
-    <span>Environment</span><span class="dot">◆</span>
-    <span>Accessibility</span><span class="dot">◆</span>
-    <span>Community</span><span class="dot">◆</span>
-    <span>Power</span><span class="dot">◆</span>
-    <span>Identity</span><span class="dot">◆</span>
-    <span>Culture</span><span class="dot">◆</span>
-    <span>Labor</span><span class="dot">◆</span>
-    <span>Environment</span><span class="dot">◆</span>
-    <span>Accessibility</span><span class="dot">◆</span>
-    <span>Community</span><span class="dot">◆</span>
-    <span>Power</span><span class="dot">◆</span>
-    <span>Identity</span><span class="dot">◆</span>
-    <span>Culture</span><span class="dot">◆</span>
+  <div class="hero-right">
+    <p>Everyday objects — furniture, tools, the things we touch without thinking — are not merely products. They are arguments about how we should live, work, and relate to one another.</p>
+    <div class="hero-meta">Design &amp; Society &nbsp;·&nbsp; Week 15</div>
   </div>
 </div>
 
-<!-- INTRO -->
-<section id="intro">
-  <div class="intro-split">
-    <div class="intro-text reveal">
-      <span class="section-label">The Question</span>
-      <h2 class="section-title">What lies <em>beneath</em> the surface?</h2>
-      <p>When a chair is designed, decisions are made: who can sit in it, for how long, at what cost, made by whose hands, from whose land. These are not aesthetic decisions. They are social ones.</p>
-      <p>Design operates at scales far beyond the object itself. It shapes bodies, organizes labor, consumes resources, signals belonging, and encodes values invisibly into the world. This project makes those scales visible.</p>
-    </div>
-    <div class="intro-stat-stack">
-      <div class="stat-card reveal reveal-delay-1">
-        <div class="stat-number">73%</div>
-        <div class="stat-label">of furniture manufacturing workers are in low-wage economies, often with limited protections</div>
+<div class="hero-image">
+  <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1800&q=80" alt="Chair design">
+</div>
+<div class="image-caption">Furniture as social argument — who is this designed for?</div>
+
+<!-- QUESTION -->
+<div class="section" id="question">
+  <div class="section-inner">
+    <div class="section-num reveal">01 — The Question</div>
+    <h2 class="reveal">What lies <em>beneath</em><br>the surface?</h2>
+    <p class="reveal reveal-d1">When a chair is designed, decisions are made: who can sit in it, for how long, at what cost, made by whose hands, from whose land. These are not aesthetic decisions. They are social ones.</p>
+    <p class="reveal reveal-d2">Design operates at scales far beyond the object itself. It shapes bodies, organizes labor, consumes resources, signals belonging, and encodes values invisibly into the world. This project makes those scales visible.</p>
+
+    <div class="stats-row">
+      <div class="stat reveal">
+        <div class="stat-n">73%</div>
+        <div class="stat-l">of furniture manufacturing workers are in low-wage economies, often with limited protections</div>
       </div>
-      <div class="stat-card reveal reveal-delay-2">
-        <div class="stat-number">11B kg</div>
-        <div class="stat-label">of furniture discarded annually in the US alone — most of it to landfill</div>
+      <div class="stat reveal reveal-d1">
+        <div class="stat-n">11B kg</div>
+        <div class="stat-l">of furniture discarded annually in the US alone — most of it to landfill</div>
       </div>
-      <div class="stat-card reveal reveal-delay-3">
-        <div class="stat-number">1 in 4</div>
-        <div class="stat-label">people with disabilities report that standard furniture design excludes them from full participation</div>
+      <div class="stat reveal reveal-d2">
+        <div class="stat-n">1 in 4</div>
+        <div class="stat-l">people with disabilities report that standard furniture design excludes them from full participation</div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- SCALES -->
-<section class="scales-section" id="scales">
-  <div style="max-width:1200px; margin:0 auto;">
-    <span class="section-label reveal">Impact at Every Scale</span>
-    <h2 class="section-title reveal">The object is just<br><em>the beginning.</em></h2>
+<div class="section" id="scales">
+  <div class="section-inner wide">
+    <div class="section-num reveal">02 — Impact at Every Scale</div>
+    <h2 class="reveal">The object is just<br><em>the beginning.</em></h2>
+
     <div class="scales-grid">
-      <div class="scale-card reveal reveal-delay-1">
-        <span class="scale-num">01</span>
-        <div class="scale-icon">◉</div>
-        <div class="scale-title">Body</div>
-        <p class="scale-desc">How does the object fit — or fail to fit — the human body? Ergonomics is never neutral; it encodes assumptions about who the "default" user is, often excluding women, disabled people, and non-Western body types.</p>
+      <div class="scale-item reveal">
+        <div class="scale-index">01 — Body</div>
+        <div class="scale-title">Who does it fit?</div>
+        <p class="scale-desc">Ergonomics is never neutral. The task chair designed for a 1960s male office worker still sets the global standard — encoding assumptions about who the "default" user is, often excluding women, disabled people, and non-Western body types.</p>
       </div>
-      <div class="scale-card reveal reveal-delay-2">
-        <span class="scale-num">02</span>
-        <div class="scale-icon">◎</div>
-        <div class="scale-title">Household</div>
+      <div class="scale-item reveal reveal-d1">
+        <div class="scale-index">02 — Household</div>
+        <div class="scale-title">Who does the work?</div>
         <p class="scale-desc">Objects organize domestic life and domestic labor. Furniture design shapes how families share space, distribute work, and perform identity — reflecting and reinforcing social norms about gender and class.</p>
       </div>
-      <div class="scale-card reveal reveal-delay-3">
-        <span class="scale-num">03</span>
-        <div class="scale-icon">◍</div>
-        <div class="scale-title">Community</div>
-        <p class="scale-desc">Public seating, shared tools, communal objects define who belongs in a space and who is designed out. "Hostile architecture" makes visible what is often done invisibly by design.</p>
+      <div class="scale-item reveal">
+        <div class="scale-index">03 — Community</div>
+        <div class="scale-title">Who belongs here?</div>
+        <p class="scale-desc">Public seating and communal objects define who is welcome in a space and who is designed out. "Hostile architecture" makes visible what is often done invisibly — by design.</p>
       </div>
-      <div class="scale-card reveal reveal-delay-4">
-        <span class="scale-num">04</span>
-        <div class="scale-icon">●</div>
-        <div class="scale-title">Planet</div>
+      <div class="scale-item reveal reveal-d1">
+        <div class="scale-index">04 — Planet</div>
+        <div class="scale-title">Who pays the cost?</div>
         <p class="scale-desc">Every object has a material history: extraction, production, transport, use, disposal. The ecological cost of everyday design is borne unevenly — by communities near mines, factories, and landfills.</p>
       </div>
     </div>
   </div>
-</section>
-
-<!-- CASE STUDIES -->
-<section class="case-studies" id="cases">
-  <div class="case-header">
-    <span class="section-label reveal">Case Studies</span>
-    <h2 class="section-title reveal">Objects with<br><em>arguments.</em></h2>
-  </div>
-
-  <div class="case-item reveal">
-    <div class="case-img">
-      <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=900&q=80" alt="Chair design">
-    </div>
-    <div class="case-body">
-      <span class="case-tag">Case Study 01 — Seating</span>
-      <h3>The Chair Is Never Just a Chair</h3>
-      <p>From the throne to the office chair, seating encodes hierarchy. The task chair designed for a 1960s male office worker — still the global standard — causes chronic pain for bodies it wasn't designed for.</p>
-      <p>Inclusive seating design isn't just more comfortable. It's a political statement: that all bodies deserve to work without pain.</p>
-      <div class="case-impact">Impact Scales: Body · Labor · Community</div>
-    </div>
-  </div>
-
-  <div class="case-item reveal">
-    <div class="case-img">
-      <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=900&q=80" alt="Tools and labor">
-    </div>
-    <div class="case-body">
-      <span class="case-tag">Case Study 02 — Tools</span>
-      <h3>Who Designs the Hammer?</h3>
-      <p>Standard tools were designed by and for men in formal trade settings. The rise of DIY culture and changing workforces revealed systemic exclusions — from grip size to weight distribution.</p>
-      <p>Redesigning tools is redesigning access to skilled work, home ownership, and economic self-sufficiency.</p>
-      <div class="case-impact">Impact Scales: Body · Labor · Economy</div>
-    </div>
-  </div>
-
-  <div class="case-item reveal">
-    <div class="case-img">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="Fast furniture waste">
-    </div>
-    <div class="case-body">
-      <span class="case-tag">Case Study 03 — Lifecycle</span>
-      <h3>The Cost of "Affordable" Design</h3>
-      <p>Flat-pack, low-cost furniture democratized interior design — but at a cost. Designed to be replaced rather than repaired, it generates enormous waste and depends on hidden labor exploitation across supply chains.</p>
-      <p>Who pays for cheap design? Workers in factories, communities near landfills, and the environment itself.</p>
-      <div class="case-impact">Impact Scales: Labor · Environment · Planet</div>
-    </div>
-  </div>
-</section>
-
-<div class="quote-section">
-  <p class="big-quote reveal">"The public doesn't need to be taught to care about design. They need to be shown that design has already been deciding things for them — without asking."</p>
-  <p class="quote-attr reveal">— Central argument of this research project</p>
 </div>
 
-<!-- MOSAIC -->
-<section style="padding: 8rem 3rem;">
-  <div style="max-width:1200px; margin:0 auto;">
-    <span class="section-label reveal">Visible Impact</span>
-    <h2 class="section-title reveal">Design shapes the<br><em>world we share.</em></h2>
-    <div class="mosaic">
-      <div class="mosaic-item wide reveal">
-        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80" alt="Public space design">
-        <div class="mosaic-caption">
-          <h4>Public Space</h4>
-          <p>Who is welcome here?</p>
-        </div>
-      </div>
-      <div class="mosaic-item reveal">
-        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Home interior">
-        <div class="mosaic-caption">
-          <h4>Domestic Life</h4>
-          <p>Organized by objects</p>
-        </div>
-      </div>
-      <div class="mosaic-item reveal">
-        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80" alt="Material extraction">
-        <div class="mosaic-caption">
-          <h4>Material Origins</h4>
-          <p>Where does it come from?</p>
-        </div>
-      </div>
-      <div class="mosaic-item reveal">
-        <img src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=600&q=80" alt="Factory labor">
-        <div class="mosaic-caption">
-          <h4>Hidden Labor</h4>
-          <p>Who made this?</p>
-        </div>
-      </div>
+<!-- CASE STUDIES -->
+<div class="section" id="cases">
+  <div class="section-inner wide">
+    <div class="section-num reveal">03 — Case Studies</div>
+    <h2 class="reveal">Objects with<br><em>arguments.</em></h2>
+  </div>
+
+  <div class="case reveal">
+    <div class="case-image">
+      <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=900&q=80" alt="Chair design">
+    </div>
+    <div class="case-text">
+      <div class="case-tag">Case Study 01 — Seating</div>
+      <div class="case-title">The Chair Is Never Just a Chair</div>
+      <p class="case-body">From the throne to the office chair, seating encodes hierarchy. The task chair designed for a 1960s male office worker — still the global standard — causes chronic pain for bodies it was never designed for.</p>
+      <p class="case-body">Inclusive seating design isn't just more comfortable. It's a political statement: that all bodies deserve to work without pain.</p>
+      <div class="case-scales">Body · Labor · Community</div>
     </div>
   </div>
-</section>
+
+  <div class="case flip reveal">
+    <div class="case-image">
+      <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=900&q=80" alt="Tools and labor">
+    </div>
+    <div class="case-text">
+      <div class="case-tag">Case Study 02 — Tools</div>
+      <div class="case-title">Who Designs the Hammer?</div>
+      <p class="case-body">Standard tools were designed by and for men in formal trade settings. The rise of DIY culture and changing workforces revealed systemic exclusions — from grip size to weight distribution.</p>
+      <p class="case-body">Redesigning tools is redesigning access to skilled work, home ownership, and economic self-sufficiency.</p>
+      <div class="case-scales">Body · Labor · Economy</div>
+    </div>
+  </div>
+
+  <div class="case reveal">
+    <div class="case-image">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="Fast furniture waste">
+    </div>
+    <div class="case-text">
+      <div class="case-tag">Case Study 03 — Lifecycle</div>
+      <div class="case-title">The Cost of "Affordable" Design</div>
+      <p class="case-body">Flat-pack, low-cost furniture democratized interior design — but at a cost. Designed to be replaced rather than repaired, it generates enormous waste and depends on hidden labor exploitation across supply chains.</p>
+      <p class="case-body">Who pays for cheap design? Workers in factories, communities near landfills, and the environment itself.</p>
+      <div class="case-scales">Labor · Environment · Planet</div>
+    </div>
+  </div>
+</div>
+
+<!-- PULLQUOTE -->
+<div class="pullquote reveal">
+  <div class="pullquote-rule"></div>
+  <div class="pullquote-content">
+    <blockquote>"The public doesn't need to be taught to care about design. They need to be shown that design has already been deciding things for them — without asking."</blockquote>
+    <div class="pullquote-attr">Central argument of this research project</div>
+  </div>
+</div>
 
 <!-- CONCLUSION -->
-<section class="conclusion" id="conclusion">
+<div class="conclusion" id="argument">
   <h2 class="reveal">The Design<br>Argument<br>is Public.</h2>
-  <p class="reveal">Every object is a decision made on behalf of someone. This project argues that making those decisions legible — their scale, their consequences, their politics — is the most powerful thing design communication can do.</p>
-  <a href="#intro" class="cta-btn reveal">Read the Research ↑</a>
-</section>
+  <div class="conclusion-right">
+    <p class="reveal reveal-d1">Every object is a decision made on behalf of someone. This project argues that making those decisions legible — their scale, their consequences, their politics — is the most powerful thing design communication can do.</p>
+    <p class="reveal reveal-d2">Design is not decoration. It is governance — the quiet authority that decides who sits comfortably, who works safely, whose labor is invisible, and whose land is consumed. Making that visible is a political act.</p>
+  </div>
+</div>
 
-<!-- FOOTER -->
 <footer>
-  <span class="footer-logo">Design Beyond</span>
+  <span class="footer-logo">Design Beyond the Object</span>
   <div class="footer-note">
-    <p>Research Project — Option 2</p>
-    <p style="margin-top:0.25rem;">Design &amp; Society · Week 15</p>
+    <div>Research Project — Option 2</div>
+    <div>Design &amp; Society · Week 15</div>
   </div>
 </footer>
 
 <script>
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => obs.observe(el));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
